@@ -39,7 +39,7 @@ void setup() {
   lcd.print("Hello, world!");
   time = millis() - time;
   Serial.print("Took "); Serial.print(time); Serial.println(" ms");
-  lcd.setBacklight(BLUE);
+  lcd.setBacklight(WHITE);
 }
 
 uint8_t i=0;
