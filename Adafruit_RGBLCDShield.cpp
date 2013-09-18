@@ -20,6 +20,11 @@
 #include <string.h>
 #include <inttypes.h>
 #include <Wire.h>
+#ifdef __AVR__
+ #define WIRE Wire
+#else // Arduino Due
+ #define WIRE Wire1
+#endif
 
 #if ARDUINO >= 100
  #include "Arduino.h"
@@ -110,7 +115,7 @@ void Adafruit_RGBLCDShield::begin(uint8_t cols, uint8_t lines, uint8_t dotsize) 
   // check if i2c
   if (_i2cAddr != 255) {
     //_i2c.begin(_i2cAddr);
-    Wire.begin();
+    WIRE.begin();
     _i2c.begin();
 
     _i2c.pinMode(8, OUTPUT);
@@ -385,21 +390,21 @@ void Adafruit_RGBLCDShield::write4bits(uint8_t value) {
 
     // speed up for i2c since its sluggish
     for (int i = 0; i < 4; i++) {
-      out &= ~_BV(_data_pins[i]);
+      out &= ~(1 << _data_pins[i]);
       out |= ((value >> i) & 0x1) << _data_pins[i];
     }
 
     // make sure enable is low
-    out &= ~ _BV(_enable_pin);
+    out &= ~(1 << _enable_pin);
 
     _i2c.writeGPIOAB(out);
 
     // pulse enable
     delayMicroseconds(1);
-    out |= _BV(_enable_pin);
+    out |= (1 << _enable_pin);
     _i2c.writeGPIOAB(out);
     delayMicroseconds(1);
-    out &= ~_BV(_enable_pin);
+    out &= ~(1 << _enable_pin);
     _i2c.writeGPIOAB(out);   
     delayMicroseconds(100);
 

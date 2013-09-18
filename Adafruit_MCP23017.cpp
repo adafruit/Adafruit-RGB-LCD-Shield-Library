@@ -14,6 +14,11 @@
 #include <Wire.h>
 #include <avr/pgmspace.h>
 #include "Adafruit_MCP23017.h"
+#ifdef __AVR__
+ #define WIRE Wire
+#else // Arduino Due
+ #define WIRE Wire1
+#endif
 
 #if ARDUINO >= 100
  #include "Arduino.h"
@@ -24,17 +29,17 @@
 // minihelper
 static inline void wiresend(uint8_t x) {
 #if ARDUINO >= 100
-  Wire.write((uint8_t)x);
+  WIRE.write((uint8_t)x);
 #else
-  Wire.send(x);
+  WIRE.send(x);
 #endif
 }
 
 static inline uint8_t wirerecv(void) {
 #if ARDUINO >= 100
-  return Wire.read();
+  return WIRE.read();
 #else
-  return Wire.receive();
+  return WIRE.receive();
 #endif
 }
 
@@ -46,19 +51,19 @@ void Adafruit_MCP23017::begin(uint8_t addr) {
   }
   i2caddr = addr;
 
-  Wire.begin();
+  WIRE.begin();
 
   
   // set defaults!
-  Wire.beginTransmission(MCP23017_ADDRESS | i2caddr);
+  WIRE.beginTransmission(MCP23017_ADDRESS | i2caddr);
   wiresend(MCP23017_IODIRA);
   wiresend(0xFF);  // all inputs on port A
-  Wire.endTransmission();
+  WIRE.endTransmission();
 
-  Wire.beginTransmission(MCP23017_ADDRESS | i2caddr);
+  WIRE.beginTransmission(MCP23017_ADDRESS | i2caddr);
   wiresend(MCP23017_IODIRB);
   wiresend(0xFF);  // all inputs on port B
-  Wire.endTransmission();
+  WIRE.endTransmission();
 }
 
 
@@ -82,11 +87,11 @@ void Adafruit_MCP23017::pinMode(uint8_t p, uint8_t d) {
   }
 
   // read the current IODIR
-  Wire.beginTransmission(MCP23017_ADDRESS | i2caddr);
+  WIRE.beginTransmission(MCP23017_ADDRESS | i2caddr);
   wiresend(iodiraddr);	
-  Wire.endTransmission();
+  WIRE.endTransmission();
   
-  Wire.requestFrom(MCP23017_ADDRESS | i2caddr, 1);
+  WIRE.requestFrom(MCP23017_ADDRESS | i2caddr, 1);
   iodir = wirerecv();
 
   // set the pin and direction
@@ -97,10 +102,10 @@ void Adafruit_MCP23017::pinMode(uint8_t p, uint8_t d) {
   }
 
   // write the new IODIR
-  Wire.beginTransmission(MCP23017_ADDRESS | i2caddr);
+  WIRE.beginTransmission(MCP23017_ADDRESS | i2caddr);
   wiresend(iodiraddr);
   wiresend(iodir);	
-  Wire.endTransmission();
+  WIRE.endTransmission();
 }
 
 uint16_t Adafruit_MCP23017::readGPIOAB() {
@@ -108,11 +113,11 @@ uint16_t Adafruit_MCP23017::readGPIOAB() {
   uint8_t a;
 
   // read the current GPIO output latches
-  Wire.beginTransmission(MCP23017_ADDRESS | i2caddr);
+  WIRE.beginTransmission(MCP23017_ADDRESS | i2caddr);
   wiresend(MCP23017_GPIOA);	
-  Wire.endTransmission();
+  WIRE.endTransmission();
   
-  Wire.requestFrom(MCP23017_ADDRESS | i2caddr, 2);
+  WIRE.requestFrom(MCP23017_ADDRESS | i2caddr, 2);
   a = wirerecv();
   ba = wirerecv();
   ba <<= 8;
@@ -122,11 +127,11 @@ uint16_t Adafruit_MCP23017::readGPIOAB() {
 }
 
 void Adafruit_MCP23017::writeGPIOAB(uint16_t ba) {
-  Wire.beginTransmission(MCP23017_ADDRESS | i2caddr);
+  WIRE.beginTransmission(MCP23017_ADDRESS | i2caddr);
   wiresend(MCP23017_GPIOA);	
   wiresend(ba & 0xFF);
   wiresend(ba >> 8);
-  Wire.endTransmission();
+  WIRE.endTransmission();
 }
 
 void Adafruit_MCP23017::digitalWrite(uint8_t p, uint8_t d) {
@@ -147,11 +152,11 @@ void Adafruit_MCP23017::digitalWrite(uint8_t p, uint8_t d) {
   }
 
   // read the current GPIO output latches
-  Wire.beginTransmission(MCP23017_ADDRESS | i2caddr);
+  WIRE.beginTransmission(MCP23017_ADDRESS | i2caddr);
   wiresend(olataddr);	
-  Wire.endTransmission();
+  WIRE.endTransmission();
   
-  Wire.requestFrom(MCP23017_ADDRESS | i2caddr, 1);
+  WIRE.requestFrom(MCP23017_ADDRESS | i2caddr, 1);
    gpio = wirerecv();
 
   // set the pin and direction
@@ -162,10 +167,10 @@ void Adafruit_MCP23017::digitalWrite(uint8_t p, uint8_t d) {
   }
 
   // write the new GPIO
-  Wire.beginTransmission(MCP23017_ADDRESS | i2caddr);
+  WIRE.beginTransmission(MCP23017_ADDRESS | i2caddr);
   wiresend(gpioaddr);
   wiresend(gpio);	
-  Wire.endTransmission();
+  WIRE.endTransmission();
 }
 
 void Adafruit_MCP23017::pullUp(uint8_t p, uint8_t d) {
@@ -185,11 +190,11 @@ void Adafruit_MCP23017::pullUp(uint8_t p, uint8_t d) {
 
 
   // read the current pullup resistor set
-  Wire.beginTransmission(MCP23017_ADDRESS | i2caddr);
+  WIRE.beginTransmission(MCP23017_ADDRESS | i2caddr);
   wiresend(gppuaddr);	
-  Wire.endTransmission();
+  WIRE.endTransmission();
   
-  Wire.requestFrom(MCP23017_ADDRESS | i2caddr, 1);
+  WIRE.requestFrom(MCP23017_ADDRESS | i2caddr, 1);
   gppu = wirerecv();
 
   // set the pin and direction
@@ -200,10 +205,10 @@ void Adafruit_MCP23017::pullUp(uint8_t p, uint8_t d) {
   }
 
   // write the new GPIO
-  Wire.beginTransmission(MCP23017_ADDRESS | i2caddr);
+  WIRE.beginTransmission(MCP23017_ADDRESS | i2caddr);
   wiresend(gppuaddr);
   wiresend(gppu);	
-  Wire.endTransmission();
+  WIRE.endTransmission();
 }
 
 uint8_t Adafruit_MCP23017::digitalRead(uint8_t p) {
@@ -221,10 +226,10 @@ uint8_t Adafruit_MCP23017::digitalRead(uint8_t p) {
   }
 
   // read the current GPIO
-  Wire.beginTransmission(MCP23017_ADDRESS | i2caddr);
+  WIRE.beginTransmission(MCP23017_ADDRESS | i2caddr);
   wiresend(gpioaddr);	
-  Wire.endTransmission();
+  WIRE.endTransmission();
   
-  Wire.requestFrom(MCP23017_ADDRESS | i2caddr, 1);
+  WIRE.requestFrom(MCP23017_ADDRESS | i2caddr, 1);
   return (wirerecv() >> p) & 0x1;
 }
