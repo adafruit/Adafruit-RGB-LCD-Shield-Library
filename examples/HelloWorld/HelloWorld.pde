@@ -16,7 +16,7 @@ When a button is pressed, the backlight changes color.
 // this is Analog 4 and 5 so you can't use those for analogRead() anymore
 // However, you can connect other I2C sensors to the I2C bus and share
 // the I2C bus.
-Adafruit_RGBLCDShield lcd = Adafruit_RGBLCDShield();
+Adafruit_RGBLCDShield lcd;
 
 // These #defines make it easy to set the backlight color
 #define RED 0x1
