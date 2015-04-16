@@ -14,10 +14,10 @@
 #include <Wire.h>
 #include <avr/pgmspace.h>
 #include "Adafruit_MCP23017.h"
-#ifdef __AVR__
- #define WIRE Wire
-#else // Arduino Due
+#ifdef __SAM3X8E__  // Arduino Due
  #define WIRE Wire1
+#else
+ #define WIRE Wire
 #endif
 
 #if ARDUINO >= 100
