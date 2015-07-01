@@ -1,0 +1,7 @@
+{
+  "name": "Adafruit-RGB-LCD-Shield-Library",
+  "author": "Lady Ada",
+  "license": "BSD",
+  "version": "0.0.10",
+  "description": "Adding the Adafruit-RGB-LCD-Shield-Library to spark"
+}
