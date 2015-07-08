@@ -12,7 +12,11 @@
  ****************************************************/
 
 #include <Wire.h>
-#include <avr/pgmspace.h>
+#ifdef __AVR
+  #include <avr/pgmspace.h>
+#elif defined(ESP8266)
+  #include <pgmspace.h>
+#endif
 #include "Adafruit_MCP23017.h"
 #ifdef __SAM3X8E__  // Arduino Due
  #define WIRE Wire1
