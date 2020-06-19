@@ -32,7 +32,7 @@
 #ifdef __SAM3X8E__ // Arduino Due
 #define WIRE Wire1
 #else
-#define WIRE Wire
+#define WIRE Wire //!< Specifies which name to use for the I2C bus
 #endif
 
 #if ARDUINO >= 100

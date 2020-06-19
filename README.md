@@ -1,3 +1,5 @@
+# Adafruit RGB LCD Shield Library [![Build Status](https://github.com/adafruit/Adafruit-RGB-LCD-Shield-Library/workflows/Arduino%20Library%20CI/badge.svg)](https://github.com/adafruit/Adafruit-RGB-LCD-Shield-Library/actions)[![Documentation](https://github.com/adafruit/ci-arduino/blob/master/assets/doxygen_badge.svg)](http://adafruit.github.io/Adafruit-RGB-LCD-Shield-Library/html/index.html)
+
 This is a library for the Adafruit RGB 16x2 LCD Shield 
 
 Pick one up at the Adafruit shop!
