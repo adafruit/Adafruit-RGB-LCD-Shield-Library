@@ -60,7 +60,7 @@
 /*!
  * @brief Base class for RGB LCD shield
  */
-class Adafruit_RGBLCDShield : public Print {
+class Adafruit_RGBLCDShield : public arduino::Print {
 public:
   Adafruit_RGBLCDShield();
 
