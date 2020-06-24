@@ -59,7 +59,7 @@
 
 #ifdef ARDUINO_ARCH_MEGAAVR 
 using namespace arduino;    //!< MEGA AVR architecture uses the arduino namespace in it's Print class definition,
-#endif                      //!<  but AVR arch does not, so this pre-compiler code only applies when it needs to.
+#endif                      //!< but AVR arch does not, so this pre-compiler code only applies when it needs to.
 
 /*!
  * @brief Base class for RGB LCD shield
