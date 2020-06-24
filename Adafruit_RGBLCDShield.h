@@ -58,8 +58,8 @@
 #define BUTTON_SELECT 0x01 //!< Select button
 
 #ifdef ARDUINO_ARCH_MEGAAVR 
-using namespace arduino;    //!< MEGA AVR architecture uses the arduino namespace in it's Print class definition,
-#endif                      //!< but AVR arch does not, so this pre-compiler code only applies when it needs to.
+using namespace arduino;    //!< MEGA AVR architecture uses the arduino namespace
+#endif                      //!< but AVR arch does not
 
 /*!
  * @brief Base class for RGB LCD shield
