@@ -57,7 +57,7 @@
 #define BUTTON_RIGHT 0x02  //!< Right button
 #define BUTTON_SELECT 0x01 //!< Select button
 
-#ifdef ARDUINO_ARCH_MEGAAVR 
+#ifdef ARDUINO_ARCH_MEGAAVR
 using namespace arduino; //!< MEGA AVR architecture uses the arduino namespace
 #endif                   //!< but AVR arch does not
 
